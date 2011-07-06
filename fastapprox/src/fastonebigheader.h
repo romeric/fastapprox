@@ -437,9 +437,25 @@ fastererf (float x)
 }
 
 static inline float
+fastinverseerf (float x)
+{
+  static const float invk = 0.30004578719350504f;
+  static const float a = 0.020287853348211326f;
+  static const float b = 0.07236892874789555f;
+  static const float c = 0.9913030456864257f;
+  static const float d = 0.8059775923760193f;
+
+  float xsq = x * x;
+  float xcube = xsq * x;
+
+  return invk * fastlog2 ((1.0f + x) / (1.0f - x)) 
+       + (a * x - b * xcube) / (c - d * xsq);
+}
+
+static inline float
 fasterinverseerf (float x)
 {
-  static const float invk = 0.30004578719350504;
+  static const float invk = 0.30004578719350504f;
 
   return invk * fasterlog2 ((1.0f + x) / (1.0f - x));
 }
@@ -486,9 +502,25 @@ vfastererf (const v4sf x)
 }
 
 static inline v4sf
+vfastinverseerf (v4sf x)
+{
+  static const v4sf invk = v4sfl (0.30004578719350504f);
+  static const v4sf a = v4sfl (0.020287853348211326f);
+  static const v4sf b = v4sfl (0.07236892874789555f);
+  static const v4sf c = v4sfl (0.9913030456864257f);
+  static const v4sf d = v4sfl (0.8059775923760193f);
+
+  v4sf xsq = x * x;
+  v4sf xcube = xsq * x;
+
+  return invk * vfastlog2 ((v4sfl (1.0f) + x) / (v4sfl (1.0f) - x)) 
+       + (a * x - b * xcube) / (c - d * xsq);
+}
+
+static inline v4sf
 vfasterinverseerf (v4sf x)
 {
-  static const v4sf invk = v4sfl (0.30004578719350504);
+  static const v4sf invk = v4sfl (0.30004578719350504f);
 
   return invk * vfasterlog2 ((v4sfl (1.0f) + x) / (v4sfl (1.0f) - x));
 }

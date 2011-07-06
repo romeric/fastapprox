@@ -5,8 +5,12 @@
 #include <string.h>
 #include <sys/time.h>
 
+#include "../src/config.h"
+
 #ifdef __cplusplus
+#ifdef HAVE_BOOST_MATH_SPECIAL_FUNCTIONS_DIGAMMA_HPP
 #include <boost/math/special_functions/digamma.hpp>
+#endif
 #endif
 
 #include "../src/fastgamma.h"
@@ -20,11 +24,13 @@ test_vector (vfastlgamma, lgammaf, 1e-2f + 10.0f * drand48 (), 5e-4f, 100000000)
 test_vector (vfasterlgamma, lgammaf, 1e-2f + 10.0f * drand48 (), 1e-1f, 100000000)
 
 #ifdef __cplusplus
+#ifdef HAVE_BOOST_MATH_SPECIAL_FUNCTIONS_DIGAMMA_HPP
 test_scalar (fastdigamma, boost::math::digamma, 1e-2f + 10.0f * drand48 (), 5e-4f, 100000000)
 test_scalar (fasterdigamma, boost::math::digamma, 1e-2f + 10.0f * drand48 (), 1e-1f, 100000000)
 
 test_vector (vfastdigamma, boost::math::digamma, 1e-2f + 10.0f * drand48 (), 5e-4f, 100000000)
 test_vector (vfasterdigamma, boost::math::digamma, 1e-2f + 10.0f * drand48 (), 1e-1f, 100000000)
+#endif
 #endif
 
 int 
@@ -49,10 +55,12 @@ main (int   argc,
   test_vfasterlgamma ();
 
 #ifdef __cplusplus
+#ifdef HAVE_BOOST_MATH_SPECIAL_FUNCTIONS_DIGAMMA_HPP
   test_fastdigamma ();
   test_fasterdigamma ();
   test_vfastdigamma ();
   test_vfasterdigamma ();
+#endif
 #endif
 
   time_fastlgamma ();
@@ -61,11 +69,17 @@ main (int   argc,
   time_vfasterlgamma ();
 
 #ifdef __cplusplus
+#ifdef HAVE_BOOST_MATH_SPECIAL_FUNCTIONS_DIGAMMA_HPP
   time_fastdigamma ();
   time_fasterdigamma ();
   time_vfastdigamma ();
   time_vfasterdigamma ();
 #endif
+#endif
 
+#ifdef HAVE_BOOST_MATH_SPECIAL_FUNCTIONS_DIGAMMA_HPP
   return 0;
+#else
+  return 77;
+#endif
 }

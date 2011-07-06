@@ -46,7 +46,7 @@
 #include "sse.h"
 #include "fastexp.h"
 
-// fasterfc: not actually faster on newer machines!
+// fasterfc: not actually faster than erfcf(3) on newer machines!
 // ... although vectorized version is interesting
 //     and fastererfc is very fast
 
@@ -77,7 +77,7 @@ fastererfc (float x)
   return 2.0f / (1.0f + fasterpow2 (k * x));
 }
 
-// fasterf: not actually faster on newer machines! 
+// fasterf: not actually faster than erff(3) on newer machines! 
 // ... although vectorized version is interesting
 //     and fastererf is very fast
 

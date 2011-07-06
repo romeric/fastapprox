@@ -436,6 +436,14 @@ fastererf (float x)
   return 1.0f - fastererfc (x);
 }
 
+static inline float
+fasterinverseerf (float x)
+{
+  static const float invk = 0.30004578719350504;
+
+  return invk * fasterlog2 ((1.0f + x) / (1.0f - x));
+}
+
 #ifdef __SSE2__
 
 static inline v4sf
@@ -475,6 +483,14 @@ static inline v4sf
 vfastererf (const v4sf x)
 {
   return v4sfl (1.0f) - vfastererfc (x);
+}
+
+static inline v4sf
+vfasterinverseerf (v4sf x)
+{
+  static const v4sf invk = v4sfl (0.30004578719350504);
+
+  return invk * vfasterlog2 ((v4sfl (1.0f) + x) / (v4sfl (1.0f) - x));
 }
 
 #endif //__SSE2__

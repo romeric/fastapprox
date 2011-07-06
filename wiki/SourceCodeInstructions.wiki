@@ -9,7 +9,7 @@
 
 I use a build system you are probably not familiar with.  Therefore I would suggest the following:
 
-  * grab the [http://code.google.com/p/fastapprox/source/browse/trunk/fastapprox/src/fastonebigheader.h standalone one big header file], or
+  * grab the [http://fastapprox.googlecode.com/svn/trunk/fastapprox/src/fastonebigheader.h standalone one big header file], or
   * get a release tarball
 
 ... or if you insist ...

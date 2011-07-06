@@ -7,7 +7,7 @@
 
 = Getting the code =
 
-I use a build system you are probably not familiar with.  Therefore I would suggest the following:
+I use a build system you are probably [http://code.google.com/p/fwtemplates/ not familiar with].  Therefore I would suggest the following:
 
   * grab the [http://fastapprox.googlecode.com/svn/trunk/fastapprox/src/fastonebigheader.h standalone one big header file], or
   * get a release tarball

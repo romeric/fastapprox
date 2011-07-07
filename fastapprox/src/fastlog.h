@@ -52,7 +52,7 @@ fastlog2 (float x)
   float y = vx.i;
   y *= 1.0f / (1 << 23);
 
-  return y - 124.22544637f 
+  return y - 124.22551499f
            - 1.498030302f * mx.f 
            - 1.72587999f / (0.3520887068f + mx.f);
 }
@@ -88,12 +88,12 @@ vfastlog2 (v4sf x)
   v4sf y = v4si_to_v4sf (vx.i);
   y *= v4sfl (1.0f / (1 << 23));
 
-  const v4sf c_124_22544637 = v4sfl (124.22544637f);
+  const v4sf c_124_22551499 = v4sfl (124.22551499f);
   const v4sf c_1_498030302 = v4sfl (1.498030302f);
   const v4sf c_1_725877999 = v4sfl (1.72587999f);
   const v4sf c_0_3520087068 = v4sfl (0.3520887068f);
 
-  return y - c_124_22544637 
+  return y - c_124_22551499
            - c_1_498030302 * mx.f 
            - c_1_725877999 / (c_0_3520087068 + mx.f);
 }

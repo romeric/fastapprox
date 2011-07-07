@@ -55,19 +55,17 @@ static inline float
 fasterfc (float x)
 {
   static const float k = 3.3509633149424609f;
-  static const float a = 0.0846486355377475f;
-  static const float b = 1.6732800045663587f;
-  static const float c = 5.604430819154318f;
+  static const float a = 0.07219054755431126f;
+  static const float b = 15.418191568719577f;
+  static const float c = 5.609846028328545f;
 
-  float bx = b * x;
   union { float f; uint32_t i; } vc = { c * x };
-  float bxsq = bx * bx;
-  float bxquad = bxsq * bxsq;
-  float bxfive = bxquad * bx;
+  float xsq = x * x;
+  float xquad = xsq * xsq;
 
   vc.i |= 0x80000000;
 
-  return 2.0f / (1.0f + fastpow2 (k * x)) - a * (bxfive - x) * fasterpow2 (vc.f);
+  return 2.0f / (1.0f + fastpow2 (k * x)) - a * x * (b * xquad - 1.0f) * fasterpow2 (vc.f);
 }
 
 static inline float
@@ -104,10 +102,9 @@ fastinverseerf (float x)
   static const float d = 0.8059775923760193f;
 
   float xsq = x * x;
-  float xcube = xsq * x;
 
   return invk * fastlog2 ((1.0f + x) / (1.0f - x)) 
-       + (a * x - b * xcube) / (c - d * xsq);
+       + x * (a - b * xsq) / (c - d * xsq);
 }
 
 static inline float
@@ -124,19 +121,17 @@ static inline v4sf
 vfasterfc (v4sf x)
 {
   static const v4sf k = v4sfl (3.3509633149424609f);
-  static const v4sf a = v4sfl (0.0846486355377475f);
-  static const v4sf b = v4sfl (1.6732800045663587f);
-  static const v4sf c = v4sfl (5.604430819154318f);
+  static const v4sf a = v4sfl (0.07219054755431126f);
+  static const v4sf b = v4sfl (15.418191568719577f);
+  static const v4sf c = v4sfl (5.609846028328545f);
 
   union { v4sf f; v4si i; } vc = { c * x };
   vc.i |= v4sil (0x80000000);
 
-  v4sf bx = b * x;
-  v4sf bxsq = bx * bx;
-  v4sf bxquad = bxsq * bxsq;
-  v4sf bxfive = bxquad * bx;
+  v4sf xsq = x * x;
+  v4sf xquad = xsq * xsq;
 
-  return v4sfl (2.0f) / (v4sfl (1.0f) + vfastpow2 (k * x)) - a * (bxfive - x) * vfasterpow2 (vc.f);
+  return v4sfl (2.0f) / (v4sfl (1.0f) + vfastpow2 (k * x)) - a * x * (b * xquad - v4sfl (1.0f)) * vfasterpow2 (vc.f);
 }
 
 static inline v4sf
@@ -169,10 +164,9 @@ vfastinverseerf (v4sf x)
   static const v4sf d = v4sfl (0.8059775923760193f);
 
   v4sf xsq = x * x;
-  v4sf xcube = xsq * x;
 
   return invk * vfastlog2 ((v4sfl (1.0f) + x) / (v4sfl (1.0f) - x)) 
-       + (a * x - b * xcube) / (c - d * xsq);
+       + x * (a - b * xsq) / (c - d * xsq);
 }
 
 static inline v4sf

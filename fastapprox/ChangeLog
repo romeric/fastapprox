@@ -1,5 +1,6 @@
 Version 0.1.0
   * Inverse erf
+  * Trade some overall log accuracy to improve accuracy on exact powers of 2
 
 Version 0.0.0
   * Fast logarithm, exponential, power, and inverse root.

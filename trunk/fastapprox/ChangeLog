@@ -1,3 +1,5 @@
+Version 0.2.0
+
 Version 0.1.0
   * Inverse erf
   * Trade some overall log accuracy to improve accuracy on exact powers of 2

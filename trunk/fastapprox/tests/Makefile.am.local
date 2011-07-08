@@ -124,4 +124,4 @@ CLEANFILES +=				\
   $(wildcard *cpp.cc)			\
   $(wildcard *.out)
 
-EXTRA_DIST = testmacros.h
+EXTRA_DIST = testmacros.h fastapprox.nb

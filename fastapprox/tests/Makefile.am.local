@@ -7,6 +7,8 @@ check_PROGRAMS =			\
   testfasterfcpp			\
   testfastlog				\
   testfastlogcpp			\
+  testfastpow				\
+  testfastpowcpp			\
   testfastsigmoid			\
   testfastsigmoidcpp			\
   testfasthyperbolic			\
@@ -88,6 +90,18 @@ testfastonebigheader_LDADD =		\
   -lm
 
 testfastonebigheadercpp_LDADD =		\
+  -lm
+
+testfastpow_SOURCES =			\
+  testfastpow.c
+
+testfastpowcpp_SOURCES =		\
+  testfastpowcpp.cc
+
+testfastpow_LDADD =			\
+  -lm
+
+testfastpowcpp_LDADD =			\
   -lm
 
 testfastsigmoid_SOURCES =		\

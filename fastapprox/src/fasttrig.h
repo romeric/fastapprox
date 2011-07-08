@@ -74,14 +74,12 @@ fastsin (float x)
 
   float qpprox = fouroverpi * x - fouroverpisq * x * vx.f;
   float qpproxsq = qpprox * qpprox;
-  float qpproxquad = qpproxsq * qpproxsq;
-  float qpproxhex = qpproxquad * qpproxsq;
 
   p.i |= sign;
   r.i |= sign;
   s.i ^= sign;
 
-  return q * qpprox + p.f * qpproxsq + r.f * qpproxquad + s.f * qpproxhex;
+  return q * qpprox + qpproxsq * (p.f + qpproxsq * (r.f + qpproxsq * s.f));
 }
 
 static inline float
@@ -97,11 +95,10 @@ fastersin (float x)
   vx.i &= 0x7FFFFFFF;
 
   float qpprox = fouroverpi * x - fouroverpisq * x * vx.f;
-  float qpproxsq = qpprox * qpprox;
 
   p.i |= sign;
 
-  return q * qpprox + p.f * qpproxsq;
+  return qpprox * (q + p.f * qpprox);
 }
 
 static inline float
@@ -220,10 +217,7 @@ vfastsin (const v4sf x)
 
   v4sf qpprox = fouroverpi * x - fouroverpisq * x * vx.f;
   v4sf qpproxsq = qpprox * qpprox;
-  v4sf qpproxquad = qpproxsq * qpproxsq;
-  v4sf qpproxhex = qpproxquad * qpproxsq;
-
-  union { v4sf f; v4si i; } vy = { p * qpproxsq + r * qpproxquad + s * qpproxhex };
+  union { v4sf f; v4si i; } vy = { qpproxsq * (p + qpproxsq * (r + qpproxsq * s)) };
   vy.i ^= sign;
 
   return q * qpprox + vy.f;
@@ -243,11 +237,10 @@ vfastersin (const v4sf x)
   vx.i &= v4sil (0x7FFFFFFF);
 
   v4sf qpprox = fouroverpi * x - fouroverpisq * x * vx.f;
-  v4sf qpproxsq = qpprox * qpprox;
 
   p.i |= sign;
 
-  return q * qpprox + p.f * qpproxsq;
+  return qpprox * (q + p.f * qpprox);
 }
 
 static inline v4sf

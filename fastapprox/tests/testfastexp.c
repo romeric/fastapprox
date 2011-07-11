@@ -23,6 +23,16 @@ main (int   argc,
 
   (void) argc;
 
+  float x;
+  for (x = -50; x > -1000; x -= 100)
+    {
+      v4sf vx = v4sfl (x);
+      assert (fastexp (x) >= 0);
+      assert (fasterexp (x) >= 0);
+      assert (v4sf_index (vfastexp (vx), 0) >= 0);
+      assert (v4sf_index (vfasterexp (vx), 0) >= 0);
+    }
+
   srand48 (69);
 
   strncpy (buf, argv[0], sizeof (buf) - 5);

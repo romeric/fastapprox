@@ -597,8 +597,8 @@ fastdigamma (float x)
   float twopx = 2.0f + x;
   float logterm = fastlog (twopx);
 
-  return - (1.0f + 2.0f * x) / (x * (1.0f + x)) 
-         - (13.0f + 6.0f * x) / (12.0f * twopx * twopx) 
+  return (-48.0f + x * (-157.0f + x * (-127.0f - 30.0f * x))) /
+         (12.0f * x * (1.0f + x) * twopx * twopx)
          + logterm;
 }
 
@@ -648,16 +648,11 @@ vfasterlgamma (v4sf x)
 static inline v4sf
 vfastdigamma (v4sf x)
 {
-  const v4sf c_1_0 = v4sfl (1.0f);
-  const v4sf c_2_0 = v4sfl (2.0f);
-  const v4sf c_6_0 = v4sfl (6.0f);
-  const v4sf c_12_0 = v4sfl (12.0f);
-  const v4sf c_13_0 = v4sfl (13.0f);
-  v4sf twopx = c_2_0 + x;
+  v4sf twopx = v4sfl (2.0f) + x;
   v4sf logterm = vfastlog (twopx);
 
-  return - (c_1_0 + c_2_0 * x) / (x * (c_1_0 + x))
-         - (c_13_0 + c_6_0 * x) / (c_12_0 * twopx * twopx)
+  return (v4sfl (-48.0f) + x * (v4sfl (-157.0f) + x * (v4sfl (-127.0f) - v4sfl (30.0f) * x))) /
+         (v4sfl (12.0f) * x * (v4sfl (1.0f) + x) * twopx * twopx)
          + logterm;
 }
 

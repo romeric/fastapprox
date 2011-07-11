@@ -1,4 +1,5 @@
 Version 0.2.0
+  * 10% faster fastdigamma/vfastdigamma (same formula with terms rearranged)
 
 Version 0.1.0
   * Inverse erf

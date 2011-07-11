@@ -49,7 +49,6 @@
 namespace {
 #endif // __cplusplus
 
-typedef int myv4si __attribute__ ((__vector_size__ (16)));
 typedef __m128 v4sf;
 typedef __m128i v4si;
 
@@ -57,7 +56,8 @@ typedef __m128i v4si;
 #define v4sf_to_v4si _mm_cvttps_epi32
 
 #define v4sfl(x) ((const v4sf) { (x), (x), (x), (x) })
-#define v4sil(x) ((const v4si) (const myv4si) { (x), (x), (x), (x) })
+#define v2dil(x) ((const v4si) { (x), (x) })
+#define v4sil(x) v2dil((((unsigned long long) (x)) << 32) | (x))
 
 typedef union { v4sf f; float array[4]; } v4sfindexer;
 #define v4sf_index(_findx, _findi)      \

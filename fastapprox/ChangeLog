@@ -1,6 +1,7 @@
 Version 0.2.0
   * 10% faster fastdigamma/vfastdigamma (same formula with terms rearranged)
   * handle underflow in fastexp (25% speed penalty, but ubiqituous so necessary)
+  * purge last remaining __attribute__ (gcc specific)
 
 Version 0.1.0
   * Inverse erf

@@ -132,13 +132,17 @@ typedef union { v4sf f; v4si i; } v4sfv4sipun;
 
 #include <stdint.h>
 
+// Underflow of exponential is common practice in numerical routines,
+// so handle it here.
+
 static inline float
 fastpow2 (float p)
 {
   float offset = (p < 0) ? 1.0f : 0.0f;
-  int w = p;
-  float z = p - w + offset;
-  union { uint32_t i; float f; } v = { (1 << 23) * (p + 121.2740838f + 27.7280233f / (4.84252568f - z) - 1.49012907f * z) };
+  float clipp = (p < -126) ? -126.0f : p;
+  int w = clipp;
+  float z = clipp - w + offset;
+  union { uint32_t i; float f; } v = { (1 << 23) * (clipp + 121.2740838f + 27.7280233f / (4.84252568f - z) - 1.49012907f * z) };
 
   return v.f;
 }
@@ -152,7 +156,8 @@ fastexp (float p)
 static inline float
 fasterpow2 (float p)
 {
-  union { uint32_t i; float f; } v = { (1 << 23) * (p + 126.94269504f) };
+  float clipp = (p < -126) ? -126.0f : p;
+  union { uint32_t i; float f; } v = { (1 << 23) * (clipp + 126.94269504f) };
   return v.f;
 }
 
@@ -167,10 +172,12 @@ fasterexp (float p)
 static inline v4sf
 vfastpow2 (const v4sf p)
 {
-  v4si w = v4sf_to_v4si (p);
   v4sf ltzero = _mm_cmplt_ps (p, v4sfl (0.0f));
   v4sf offset = _mm_and_ps (ltzero, v4sfl (1.0f));
-  v4sf z = p - v4si_to_v4sf (w) + offset;
+  v4sf lt126 = _mm_cmplt_ps (p, v4sfl (-126.0f));
+  v4sf clipp = _mm_andnot_ps (lt126, p) + _mm_and_ps (lt126, v4sfl (-126.0f));
+  v4si w = v4sf_to_v4si (clipp);
+  v4sf z = clipp - v4si_to_v4sf (w) + offset;
 
   const v4sf c_121_2740838 = v4sfl (121.2740838f);
   const v4sf c_27_7280233 = v4sfl (27.7280233f);
@@ -179,7 +186,7 @@ vfastpow2 (const v4sf p)
   union { v4si i; v4sf f; } v = {
     v4sf_to_v4si (
       v4sfl (1 << 23) * 
-      (p + c_121_2740838 + c_27_7280233 / (c_4_84252568 - z) - c_1_49012907 * z)
+      (clipp + c_121_2740838 + c_27_7280233 / (c_4_84252568 - z) - c_1_49012907 * z)
     )
   };
 
@@ -198,7 +205,9 @@ static inline v4sf
 vfasterpow2 (const v4sf p)
 {
   const v4sf c_126_94269504 = v4sfl (126.94269504f);
-  union { v4si i; v4sf f; } v = { v4sf_to_v4si (v4sfl (1 << 23) * (p + c_126_94269504)) };
+  v4sf lt126 = _mm_cmplt_ps (p, v4sfl (-126.0f));
+  v4sf clipp = _mm_andnot_ps (lt126, p) + _mm_and_ps (lt126, v4sfl (-126.0f));
+  union { v4si i; v4sf f; } v = { v4sf_to_v4si (v4sfl (1 << 23) * (clipp + c_126_94269504)) };
   return v.f;
 }
 

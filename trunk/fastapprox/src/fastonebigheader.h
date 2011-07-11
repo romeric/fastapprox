@@ -262,9 +262,9 @@ static inline float
 fastlog2 (float x)
 {
   union { float f; uint32_t i; } vx = { x };
-  union { uint32_t i; float f; } mx = { (vx.i & 0x007FFFFF) | (0x7e << 23) };
+  union { uint32_t i; float f; } mx = { (vx.i & 0x007FFFFF) | 0x3f000000 };
   float y = vx.i;
-  y *= 1.0f / (1 << 23);
+  y *= 1.1920928955078125e-7f;
 
   return y - 124.22551499f
            - 1.498030302f * mx.f 
@@ -282,7 +282,7 @@ fasterlog2 (float x)
 {
   union { float f; uint32_t i; } vx = { x };
   float y = vx.i;
-  y *= 1.0 / (1 << 23);
+  y *= 1.1920928955078125e-7f;
   return y - 126.94269504f;
 }
 
@@ -298,9 +298,9 @@ static inline v4sf
 vfastlog2 (v4sf x)
 {
   union { v4sf f; v4si i; } vx = { x };
-  union { v4si i; v4sf f; } mx = { (vx.i & v4sil (0x007FFFFF)) | v4sil (0x7e << 23) };
+  union { v4si i; v4sf f; } mx = { (vx.i & v4sil (0x007FFFFF)) | v4sil (0x3f000000) };
   v4sf y = v4si_to_v4sf (vx.i);
-  y *= v4sfl (1.0f / (1 << 23));
+  y *= v4sfl (1.1920928955078125e-7f);
 
   const v4sf c_124_22551499 = v4sfl (124.22551499f);
   const v4sf c_1_498030302 = v4sfl (1.498030302f);
@@ -325,7 +325,7 @@ vfasterlog2 (v4sf x)
 {
   union { v4sf f; v4si i; } vx = { x };
   v4sf y = v4si_to_v4sf (vx.i);
-  y *= v4sfl (1.0f / (1 << 23));
+  y *= v4sfl (1.1920928955078125e-7f);
 
   const v4sf c_126_94269504 = v4sfl (126.94269504f);
 

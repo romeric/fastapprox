@@ -87,7 +87,7 @@ vfastpow2 (const v4sf p)
   v4sf ltzero = _mm_cmplt_ps (p, v4sfl (0.0f));
   v4sf offset = _mm_and_ps (ltzero, v4sfl (1.0f));
   v4sf lt126 = _mm_cmplt_ps (p, v4sfl (-126.0f));
-  v4sf clipp = _mm_andnot_ps (lt126, p) + _mm_and_ps (lt126, v4sfl (-126.0f));
+  v4sf clipp = _mm_or_ps (_mm_andnot_ps (lt126, p), _mm_and_ps (lt126, v4sfl (-126.0f)));
   v4si w = v4sf_to_v4si (clipp);
   v4sf z = clipp - v4si_to_v4sf (w) + offset;
 

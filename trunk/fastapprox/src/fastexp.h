@@ -118,7 +118,7 @@ vfasterpow2 (const v4sf p)
 {
   const v4sf c_126_94269504 = v4sfl (126.94269504f);
   v4sf lt126 = _mm_cmplt_ps (p, v4sfl (-126.0f));
-  v4sf clipp = _mm_andnot_ps (lt126, p) + _mm_and_ps (lt126, v4sfl (-126.0f));
+  v4sf clipp = _mm_or_ps (_mm_andnot_ps (lt126, p), _mm_and_ps (lt126, v4sfl (-126.0f)));
   union { v4si i; v4sf f; } v = { v4sf_to_v4si (v4sfl (1 << 23) * (clipp + c_126_94269504)) };
   return v.f;
 }

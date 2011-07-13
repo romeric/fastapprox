@@ -54,7 +54,7 @@ fastpow2 (float p)
   float clipp = (p < -126) ? -126.0f : p;
   int w = clipp;
   float z = clipp - w + offset;
-  union { uint32_t i; float f; } v = { (1 << 23) * (clipp + 121.2740838f + 27.7280233f / (4.84252568f - z) - 1.49012907f * z) };
+  union { uint32_t i; float f; } v = { (1 << 23) * (clipp + 121.2740575f + 27.7280233f / (4.84252568f - z) - 1.49012907f * z) };
 
   return v.f;
 }
@@ -91,7 +91,7 @@ vfastpow2 (const v4sf p)
   v4si w = v4sf_to_v4si (clipp);
   v4sf z = clipp - v4si_to_v4sf (w) + offset;
 
-  const v4sf c_121_2740838 = v4sfl (121.2740838f);
+  const v4sf c_121_2740838 = v4sfl (121.2740575f);
   const v4sf c_27_7280233 = v4sfl (27.7280233f);
   const v4sf c_4_84252568 = v4sfl (4.84252568f);
   const v4sf c_1_49012907 = v4sfl (1.49012907f);

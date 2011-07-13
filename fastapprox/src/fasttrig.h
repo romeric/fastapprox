@@ -108,7 +108,7 @@ fastsinfull (float x)
   static const float invtwopi = 0.15915494309189534f;
 
   int k = x * invtwopi;
-  float half = -0.5f + ((x < 0) ? 0.0f : 1.0f);
+  float half = (x < 0) ? -0.5f : 0.5f;
   return fastsin ((half + k) * twopi - x);
 }
 
@@ -119,16 +119,16 @@ fastersinfull (float x)
   static const float invtwopi = 0.15915494309189534f;
 
   int k = x * invtwopi;
-  float half = -0.5f + ((x < 0) ? 0.0f : 1.0f);
+  float half = (x < 0) ? -0.5f : 0.5f;
   return fastersin ((half + k) * twopi - x);
 }
 
 static inline float
 fastcos (float x)
 {
-  static const float twopi = 6.2831853071795865f;
   static const float halfpi = 1.5707963267948966f;
-  float offset = halfpi - ((x > halfpi) ? twopi : 0.0f);
+  static const float halfpiminustwopi = -4.7123889803846899f;
+  float offset = (x > halfpi) ? halfpiminustwopi : halfpi;
   return fastsin (x + offset);
 }
 
@@ -180,7 +180,7 @@ fasttanfull (float x)
   static const float invtwopi = 0.15915494309189534f;
 
   int k = x * invtwopi;
-  float half = -0.5f + ((x < 0) ? 0.0f : 1.0f);
+  float half = (x < 0) ? -0.5f : 0.5f;
   float xnew = x - (half + k) * twopi;
 
   return fastsin (xnew) / fastcos (xnew);
@@ -193,7 +193,7 @@ fastertanfull (float x)
   static const float invtwopi = 0.15915494309189534f;
 
   int k = x * invtwopi;
-  float half = -0.5f + ((x < 0) ? 0.0f : 1.0f);
+  float half = (x < 0) ? -0.5f : 0.5f;
   float xnew = x - (half + k) * twopi;
 
   return fastersin (xnew) / fastercos (xnew);
@@ -251,9 +251,9 @@ vfastsinfull (const v4sf x)
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 
-  v4sf half = v4sfl (-0.5f);
-  v4sf ltzero = _mm_cmpnlt_ps (x, v4sfl (0.0f));
-  half += _mm_and_ps (ltzero, v4sfl (1.0f));
+  v4sf ltzero = _mm_cmplt_ps (x, v4sfl (0.0f));
+  v4sf half = _mm_or_ps (_mm_and_ps (ltzero, v4sfl (-0.5f)),
+                         _mm_andnot_ps (ltzero, v4sfl (0.5f)));
 
   return vfastsin ((half + v4si_to_v4sf (k)) * twopi - x);
 }
@@ -266,9 +266,9 @@ vfastersinfull (const v4sf x)
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 
-  v4sf half = v4sfl (-0.5f);
-  v4sf ltzero = _mm_cmpnlt_ps (x, v4sfl (0.0f));
-  half += _mm_and_ps (ltzero, v4sfl (1.0f));
+  v4sf ltzero = _mm_cmplt_ps (x, v4sfl (0.0f));
+  v4sf half = _mm_or_ps (_mm_and_ps (ltzero, v4sfl (-0.5f)),
+                         _mm_andnot_ps (ltzero, v4sfl (0.5f)));
 
   return vfastersin ((half + v4si_to_v4sf (k)) * twopi - x);
 }
@@ -276,10 +276,11 @@ vfastersinfull (const v4sf x)
 static inline v4sf
 vfastcos (const v4sf x)
 {
-  static const v4sf twopi = v4sfl (6.2831853071795865f);
   static const v4sf halfpi = v4sfl (1.5707963267948966f);
-  v4sf gthalfpi = _mm_cmpnlt_ps (x, halfpi);
-  v4sf offset = halfpi - _mm_and_ps (gthalfpi, twopi);
+  static const v4sf halfpiminustwopi = v4sfl (-4.7123889803846899f);
+  v4sf lthalfpi = _mm_cmpnlt_ps (x, halfpi);
+  v4sf offset = _mm_or_ps (_mm_and_ps (lthalfpi, halfpiminustwopi),
+                           _mm_andnot_ps (lthalfpi, halfpi));
   return vfastsin (x + offset);
 }
 
@@ -330,10 +331,9 @@ vfasttanfull (const v4sf x)
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 
-  v4sf half = v4sfl (-0.5f);
-  v4sf ltzero = _mm_cmpnlt_ps (x, v4sfl (0.0f));
-  half += _mm_and_ps (ltzero, v4sfl (1.0f));
-  
+  v4sf ltzero = _mm_cmplt_ps (x, v4sfl (0.0f));
+  v4sf half = _mm_or_ps (_mm_and_ps (ltzero, v4sfl (-0.5f)),
+                         _mm_andnot_ps (ltzero, v4sfl (0.5f)));
   v4sf xnew = x - (half + v4si_to_v4sf (k)) * twopi;
 
   return vfastsin (xnew) / vfastcos (xnew);
@@ -347,10 +347,9 @@ vfastertanfull (const v4sf x)
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 
-  v4sf half = v4sfl (-0.5f);
-  v4sf ltzero = _mm_cmpnlt_ps (x, v4sfl (0.0f));
-  half += _mm_and_ps (ltzero, v4sfl (1.0f));
-  
+  v4sf ltzero = _mm_cmplt_ps (x, v4sfl (0.0f));
+  v4sf half = _mm_or_ps (_mm_and_ps (ltzero, v4sfl (-0.5f)),
+                         _mm_andnot_ps (ltzero, v4sfl (0.5f)));
   v4sf xnew = x - (half + v4si_to_v4sf (k)) * twopi;
 
   return vfastersin (xnew) / vfastercos (xnew);

@@ -859,6 +859,8 @@ vfastertanh (const v4sf p)
 
 #include <stdint.h>
 
+// these functions compute the upper branch aka W_0
+
 static inline float
 fastlambertw (float x)
 {

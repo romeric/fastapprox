@@ -46,6 +46,8 @@
 #include "fastlog.h"
 #include "sse.h"
 
+// these functions compute the upper branch aka W_0
+
 static inline float
 fastlambertw (float x)
 {

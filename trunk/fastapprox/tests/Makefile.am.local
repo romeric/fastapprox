@@ -77,7 +77,7 @@ testfastlambertwcpp_SOURCES =		\
   testfastlambertwcpp.cc
 
 testfastlambertw_LDADD =		\
-  -lm
+  -lm ${GSL_LIBS}
 
 testfastlambertwcpp_LDADD =		\
   -lm

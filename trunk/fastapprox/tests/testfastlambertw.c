@@ -9,6 +9,11 @@
 
 #include "testmacros.h"
 
+#include "../src/config.h"
+#ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
+#include <gsl/gsl_sf_lambert.h>
+#endif
+
 static inline float
 lambertwrange (void)
 {
@@ -28,7 +33,7 @@ lambertwf (float x)
   float w = (x < 5) ? 0 : log (x) - log (log (x)) + log (log (x)) / log (x);
   unsigned int n;
 
-  for (n = 0; n < 10; ++n)
+  for (n = 0; n < 20; ++n)
     {
       w = (w * w + exp (-w) * x) / (1.0 + w);
     }
@@ -38,6 +43,10 @@ lambertwf (float x)
 
 test_scalar (fastlambertw, lambertwf, lambertwrange (), 1e-4f, 100000000)
 test_scalar (fasterlambertw, lambertwf, lambertwrange (), 1e-2f, 100000000)
+
+#ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
+test_scalar (gsl_sf_lambert_W0, lambertwf, lambertwrange (), 1e-2f, 1000000)
+#endif
 
 test_vector (vfastlambertw, lambertwf, lambertwrange (), 1e-4f, 100000000)
 test_vector (vfasterlambertw, lambertwf, lambertwrange (), 1e-2f, 100000000)
@@ -69,11 +78,18 @@ main (int   argc,
   test_fasterlambertw ();
   test_vfastlambertw ();
   test_vfasterlambertw ();
+#ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
+  test_gsl_sf_lambert_W0 ();
+#endif
 
   time_fastlambertw ();
   time_fasterlambertw ();
   time_vfastlambertw ();
   time_vfasterlambertw ();
+
+#ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
+  time_gsl_sf_lambert_W0 ();
+#endif
 
   return 0;
 }

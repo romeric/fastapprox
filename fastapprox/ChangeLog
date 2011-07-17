@@ -1,3 +1,6 @@
+Version 0.3.0
+  * Lambert W
+
 Version 0.2.0
   * 10% faster fastdigamma/vfastdigamma (same formula with terms rearranged)
   * handle underflow in fastexp (25% speed penalty, but ubiqituous so necessary)

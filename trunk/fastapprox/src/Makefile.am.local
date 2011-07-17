@@ -9,6 +9,7 @@ fastonebigheader.h: $(filter-out config.h fastonebigheader.h, $(wildcard *.h))
         fasterf.h		\
         fastgamma.h		\
         fasthyperbolic.h	\
+	fastlambertw.h		\
         fastpow.h		\
         fastsigmoid.h		\
         fasttrig.h		\

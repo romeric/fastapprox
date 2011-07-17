@@ -868,12 +868,12 @@ fastlambertw (float x)
 
   float c = (x < threshold) ? 1.546865557f : 1.0f;
   float d = (x < threshold) ? 2.250366841f : 0.0f;
-  float offset = (x < threshold) ? -0.737769969f : 0.0f;
+  float a = (x < threshold) ? -0.737769969f : 0.0f;
 
   float logterm = fastlog (c * x + d);
   float loglogterm = fastlog (logterm);
 
-  float w = offset + logterm - loglogterm + loglogterm / logterm;
+  float w = a + logterm - loglogterm + loglogterm / logterm;
   float expw = fastexp (w);
   float z = w * expw;
   float p = x + z;
@@ -889,12 +889,12 @@ fasterlambertw (float x)
 
   float c = (x < threshold) ? 1.546865557f : 1.0f;
   float d = (x < threshold) ? 2.250366841f : 0.0f;
-  float offset = (x < threshold) ? -0.737769969f : 0.0f;
+  float a = (x < threshold) ? -0.737769969f : 0.0f;
 
   float logterm = fasterlog (c * x + d);
   float loglogterm = fasterlog (logterm);
 
-  float w = offset + logterm - loglogterm + loglogterm / logterm;
+  float w = a + logterm - loglogterm + loglogterm / logterm;
   float expw = fasterexp (-w);
 
   return (w * w + expw * x) / (1.0f + w);
@@ -911,12 +911,12 @@ vfastlambertw (v4sf x)
   v4sf c = _mm_or_ps (_mm_and_ps (under, v4sfl (1.546865557f)),
                       _mm_andnot_ps (under, v4sfl (1.0f)));
   v4sf d = _mm_and_ps (under, v4sfl (2.250366841f));
-  v4sf offset = _mm_and_ps (under, v4sfl (-0.737769969f));
+  v4sf a = _mm_and_ps (under, v4sfl (-0.737769969f));
 
   v4sf logterm = vfastlog (c * x + d);
   v4sf loglogterm = vfastlog (logterm);
 
-  v4sf w = offset + logterm - loglogterm + loglogterm / logterm;
+  v4sf w = a + logterm - loglogterm + loglogterm / logterm;
   v4sf expw = vfastexp (w);
   v4sf z = w * expw;
   v4sf p = x + z;
@@ -934,12 +934,12 @@ vfasterlambertw (v4sf x)
   v4sf c = _mm_or_ps (_mm_and_ps (under, v4sfl (1.546865557f)),
                       _mm_andnot_ps (under, v4sfl (1.0f)));
   v4sf d = _mm_and_ps (under, v4sfl (2.250366841f));
-  v4sf offset = _mm_and_ps (under, v4sfl (-0.737769969f));
+  v4sf a = _mm_and_ps (under, v4sfl (-0.737769969f));
 
   v4sf logterm = vfasterlog (c * x + d);
   v4sf loglogterm = vfasterlog (logterm);
 
-  v4sf w = offset + logterm - loglogterm + loglogterm / logterm;
+  v4sf w = a + logterm - loglogterm + loglogterm / logterm;
   v4sf expw = vfasterexp (-w);
 
   return (w * w + expw * x) / (v4sfl (1.0f) + w);

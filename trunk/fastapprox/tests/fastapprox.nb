@@ -10928,7 +10928,7 @@ Ea7z+H15EV6d2BEC76YXFnigm8+TUj9Cof8DBN7bfA==
        Thickness[0.001]}}}}]], "Output",
  CellChangeTimes->{{3.519863512471314*^9, 3.519863519388895*^9}}]
 }, Open  ]]
-}, Open  ]]
+}, Closed]]
 },
 WindowSize->{640, 750},
 WindowMargins->{{Automatic, 39}, {28, Automatic}},
@@ -11213,7 +11213,7 @@ Cell[512844, 9938, 30541, 551, 238, "Output"],
 Cell[543388, 10491, 803, 14, 41, "Message"],
 Cell[544194, 10507, 23317, 421, 236, "Output"]
 }, Open  ]]
-}, Open  ]]
+}, Closed]]
 }
 ]
 *)

@@ -52,6 +52,13 @@ main (int   argc,
 
   srand48 (69);
 
+//  fprintf (stderr, "fastlambertw (%g) = %g, "
+//                   "fastlambertw (%g) = %g\n",
+//           -0.36787944117144232f,
+//           fastlambertw (-0.36787944117144232f),
+//           -0.36787944117144232f + 0.01f,
+//           fastlambertw (-0.36787944117144232f + 0.01f));
+
   strncpy (buf, argv[0], sizeof (buf) - 5);
   strncat (buf, ".out", 5);
 

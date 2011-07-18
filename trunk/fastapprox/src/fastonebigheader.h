@@ -903,14 +903,14 @@ fasterlambertw (float x)
 static inline float
 fastlambertwexpx (float x)
 {
-  static const float k = 1.1765631308929415f;
-  static const float a = 0.94537622167837827f;
+  static const float k = 1.1765631309f;
+  static const float a = 0.94537622168f;
 
   float logarg = fmaxf (x, k);
   float powarg = (x < k) ? a * (x - k) : 0;
 
   float logterm = fastlog (logarg);
-  float powterm = fasterpow2 (powarg);
+  float powterm = fasterpow2 (powarg);  // don't need accuracy here
 
   float w = powterm * (logarg - logterm + logterm / logarg);
   float logw = fastlog (w);
@@ -918,6 +918,24 @@ fastlambertwexpx (float x)
 
   return w * (2.0f + p + w * (3.0f + 2.0f * p)) /
          (2.0f - p + w * (5.0f + 2.0f * w));
+}
+
+static inline float
+fasterlambertwexpx (float x)
+{
+  static const float k = 1.1765631309f;
+  static const float a = 0.94537622168f;
+
+  float logarg = fmaxf (x, k);
+  float powarg = (x < k) ? a * (x - k) : 0;
+
+  float logterm = fasterlog (logarg);
+  float powterm = fasterpow2 (powarg);
+
+  float w = powterm * (logarg - logterm + logterm / logarg);
+  float logw = fasterlog (w);
+
+  return w * (1.0f + x - logw) / (1.0f + w);
 }
 
 #ifdef __SSE2__
@@ -963,6 +981,47 @@ vfasterlambertw (v4sf x)
   v4sf expw = vfasterexp (-w);
 
   return (w * w + expw * x) / (v4sfl (1.0f) + w);
+}
+
+static inline v4sf
+vfastlambertwexpx (v4sf x)
+{
+  static const v4sf k = v4sfl (1.1765631309f);
+  static const v4sf a = v4sfl (0.94537622168f);
+  static const v4sf two = v4sfl (2.0f);
+  static const v4sf three = v4sfl (3.0f);
+  static const v4sf five = v4sfl (5.0f);
+
+  v4sf logarg = _mm_max_ps (x, k);
+  v4sf powarg = _mm_and_ps (_mm_cmplt_ps (x, k), a * (x - k));
+
+  v4sf logterm = vfastlog (logarg);
+  v4sf powterm = vfasterpow2 (powarg);  // don't need accuracy here
+
+  v4sf w = powterm * (logarg - logterm + logterm / logarg);
+  v4sf logw = vfastlog (w);
+  v4sf p = x - logw;
+
+  return w * (two + p + w * (three + two * p)) /
+         (two - p + w * (five + two * w));
+}
+
+static inline v4sf
+vfasterlambertwexpx (v4sf x)
+{
+  static const v4sf k = v4sfl (1.1765631309f);
+  static const v4sf a = v4sfl (0.94537622168f);
+
+  v4sf logarg = _mm_max_ps (x, k);
+  v4sf powarg = _mm_and_ps (_mm_cmplt_ps (x, k), a * (x - k));
+
+  v4sf logterm = vfasterlog (logarg);
+  v4sf powterm = vfasterpow2 (powarg);
+
+  v4sf w = powterm * (logarg - logterm + logterm / logarg);
+  v4sf logw = vfasterlog (w);
+
+  return w * (v4sfl (1.0f) + x - logw) / (v4sfl (1.0f) + w);
 }
 
 #endif // __SSE2__

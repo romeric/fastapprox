@@ -50,6 +50,7 @@ lambertwexpxf (float x)
 test_scalar (fastlambertw, lambertwf, lambertwrange (), 1e-4f, 100000000)
 test_scalar (fasterlambertw, lambertwf, lambertwrange (), 1e-2f, 100000000)
 test_scalar (fastlambertwexpx, lambertwexpxf, -3.0f + 6.0f * drand48 (), 1e-3f, 100000000)
+test_scalar (fasterlambertwexpx, lambertwexpxf, -3.0f + 6.0f * drand48 (), 1e-2f, 100000000)
 
 #ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
 test_scalar (gsl_sf_lambert_W0, lambertwf, lambertwrange (), 1e-2f, 1000000)
@@ -57,6 +58,8 @@ test_scalar (gsl_sf_lambert_W0, lambertwf, lambertwrange (), 1e-2f, 1000000)
 
 test_vector (vfastlambertw, lambertwf, lambertwrange (), 1e-4f, 100000000)
 test_vector (vfasterlambertw, lambertwf, lambertwrange (), 1e-2f, 100000000)
+test_vector (vfastlambertwexpx, lambertwexpxf, -3.0f + 6.0f * drand48 (), 1e-3f, 100000000)
+test_vector (vfasterlambertwexpx, lambertwexpxf, -3.0f + 6.0f * drand48 (), 1e-2f, 100000000)
 
 int 
 main (int   argc,
@@ -69,11 +72,15 @@ main (int   argc,
   srand48 (69);
 
 //  fprintf (stderr, "fastlambertw (%g) = %g, "
-//                   "fastlambertw (%g) = %g\n",
+//                   "fastlambertw (%g) = %g, "
+//                   "fasterlambertwexpx (%g) = %g (%g)\n",
 //           -0.36787944117144232f,
 //           fastlambertw (-0.36787944117144232f),
 //           -0.36787944117144232f + 0.01f,
-//           fastlambertw (-0.36787944117144232f + 0.01f));
+//           fastlambertw (-0.36787944117144232f + 0.01f),
+//           -5.0f,
+//           fasterlambertwexpx (-5.0f),
+//           v4sf_index (vfasterlambertwexpx (v4sfl (-5.0f)), 0));
 
   strncpy (buf, argv[0], sizeof (buf) - 5);
   strncat (buf, ".out", 5);
@@ -89,6 +96,9 @@ main (int   argc,
   test_gsl_sf_lambert_W0 ();
 #endif
   test_fastlambertwexpx ();
+  test_fasterlambertwexpx ();
+  test_vfastlambertwexpx ();
+  test_vfasterlambertwexpx ();
 
   time_fastlambertw ();
   time_fasterlambertw ();
@@ -98,6 +108,9 @@ main (int   argc,
   time_gsl_sf_lambert_W0 ();
 #endif
   time_fastlambertwexpx ();
+  time_fasterlambertwexpx ();
+  time_vfastlambertwexpx ();
+  time_vfasterlambertwexpx ();
 
   return 0;
 }

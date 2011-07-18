@@ -87,6 +87,26 @@ fasterlambertw (float x)
   return (w * w + expw * x) / (1.0f + w);
 }
 
+static inline float
+fastlambertwexpx (float x)
+{
+  static const float k = 1.1765631308929415f;
+  static const float a = 0.94537622167837827f;
+
+  float logarg = fmaxf (x, k);
+  float powarg = (x < k) ? a * (x - k) : 0;
+
+  float logterm = fastlog (logarg);
+  float powterm = fasterpow2 (powarg);
+
+  float w = powterm * (logarg - logterm + logterm / logarg);
+  float logw = fastlog (w);
+  float p = x - logw;
+
+  return w * (2.0f + p + w * (3.0f + 2.0f * p)) /
+         (2.0f - p + w * (5.0f + 2.0f * w));
+}
+
 #ifdef __SSE2__
 
 static inline v4sf

@@ -41,8 +41,15 @@ lambertwf (float x)
   return w;
 }
 
+static inline float
+lambertwexpxf (float x)
+{
+  return lambertwf (expf (x));
+}
+
 test_scalar (fastlambertw, lambertwf, lambertwrange (), 1e-4f, 100000000)
 test_scalar (fasterlambertw, lambertwf, lambertwrange (), 1e-2f, 100000000)
+test_scalar (fastlambertwexpx, lambertwexpxf, -3.0f + 6.0f * drand48 (), 1e-3f, 100000000)
 
 #ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
 test_scalar (gsl_sf_lambert_W0, lambertwf, lambertwrange (), 1e-2f, 1000000)
@@ -81,15 +88,16 @@ main (int   argc,
 #ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
   test_gsl_sf_lambert_W0 ();
 #endif
+  test_fastlambertwexpx ();
 
   time_fastlambertw ();
   time_fasterlambertw ();
   time_vfastlambertw ();
   time_vfasterlambertw ();
-
 #ifdef HAVE_GSL_GSL_SF_LAMBERT_H 
   time_gsl_sf_lambert_W0 ();
 #endif
+  time_fastlambertwexpx ();
 
   return 0;
 }

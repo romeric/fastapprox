@@ -80,7 +80,7 @@ testfastlambertw_LDADD =		\
   -lm ${GSL_LIBS}
 
 testfastlambertwcpp_LDADD =		\
-  -lm
+  -lm ${GSL_LIBS}
 
 testfastlog_SOURCES =			\
   testfastlog.c

@@ -329,6 +329,19 @@
 
 #else // __SSE2__
 
+#define test_vector(estf, exactf, gen, maxerr, ntime)           \
+    static void                                                 \
+    test_ ## estf (void)                                        \
+      {                                                         \
+        fprintf (stderr, "%s test SKIPPED (no SSE support)\n",  \
+                 #estf);                                        \
+      }                                                         \
+                                                                \
+    static void                                                 \
+    time_ ## estf (void)                                        \
+      {                                                         \
+      }
+
 #define test_vector2(estf, exactf, genx, geny, maxerr, ntime)   \
     static void                                                 \
     test_ ## estf (void)                                        \

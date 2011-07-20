@@ -26,11 +26,13 @@ main (int   argc,
   float x;
   for (x = -50; x > -1000; x -= 100)
     {
-      v4sf vx = v4sfl (x);
       assert (fastexp (x) >= 0);
       assert (fasterexp (x) >= 0);
+#ifdef __SSE2__
+      v4sf vx = v4sfl (x);
       assert (v4sf_index (vfastexp (vx), 0) >= 0);
       assert (v4sf_index (vfasterexp (vx), 0) >= 0);
+#endif
     }
 
   srand48 (69);

@@ -1,0 +1,28 @@
+#! /bin/sh
+
+set -e
+
+#---------------------------------------------------------------------
+#                            post-remove
+# 
+# Executed after the package is removed.
+#
+# http://code.google.com/p/fwtemplates/wiki/PackageHooks
+#---------------------------------------------------------------------
+
+case "$1" in
+  upgrade)
+    # defer to newer package's script
+    exit 1
+    ;;
+  failed-upgrade)
+    # actually handle the upgrade here
+    # old-version is $2
+    ;;
+  remove)
+    ;;
+  *)
+    ;;
+esac
+
+exit 0

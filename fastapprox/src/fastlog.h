@@ -63,7 +63,7 @@ fastlog (float x)
   return 0.69314718f * fastlog2 (x);
 }
 
-inline float 
+static inline float 
 fasterlog2 (float x)
 {
   union { float f; uint32_t i; } vx = { x };
@@ -72,7 +72,7 @@ fasterlog2 (float x)
   return y - 126.94269504f;
 }
 
-inline float
+static inline float
 fasterlog (float x)
 {
   return 0.69314718f * fasterlog2 (x);

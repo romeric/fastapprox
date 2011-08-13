@@ -120,10 +120,10 @@ fasterinverseerf (float x)
 static inline v4sf
 vfasterfc (v4sf x)
 {
-  static const v4sf k = v4sfl (3.3509633149424609f);
-  static const v4sf a = v4sfl (0.07219054755431126f);
-  static const v4sf b = v4sfl (15.418191568719577f);
-  static const v4sf c = v4sfl (5.609846028328545f);
+  const v4sf k = v4sfl (3.3509633149424609f);
+  const v4sf a = v4sfl (0.07219054755431126f);
+  const v4sf b = v4sfl (15.418191568719577f);
+  const v4sf c = v4sfl (5.609846028328545f);
 
   union { v4sf f; v4si i; } vc = { c * x };
   vc.i |= v4sil (0x80000000);
@@ -137,7 +137,7 @@ vfasterfc (v4sf x)
 static inline v4sf
 vfastererfc (const v4sf x)
 {
-  static const v4sf k = v4sfl (3.3509633149424609f);
+  const v4sf k = v4sfl (3.3509633149424609f);
 
   return v4sfl (2.0f) / (v4sfl (1.0f) + vfasterpow2 (k * x));
 }
@@ -157,11 +157,11 @@ vfastererf (const v4sf x)
 static inline v4sf
 vfastinverseerf (v4sf x)
 {
-  static const v4sf invk = v4sfl (0.30004578719350504f);
-  static const v4sf a = v4sfl (0.020287853348211326f);
-  static const v4sf b = v4sfl (0.07236892874789555f);
-  static const v4sf c = v4sfl (0.9913030456864257f);
-  static const v4sf d = v4sfl (0.8059775923760193f);
+  const v4sf invk = v4sfl (0.30004578719350504f);
+  const v4sf a = v4sfl (0.020287853348211326f);
+  const v4sf b = v4sfl (0.07236892874789555f);
+  const v4sf c = v4sfl (0.9913030456864257f);
+  const v4sf d = v4sfl (0.8059775923760193f);
 
   v4sf xsq = x * x;
 
@@ -172,7 +172,7 @@ vfastinverseerf (v4sf x)
 static inline v4sf
 vfasterinverseerf (v4sf x)
 {
-  static const v4sf invk = v4sfl (0.30004578719350504f);
+  const v4sf invk = v4sfl (0.30004578719350504f);
 
   return invk * vfasterlog2 ((v4sfl (1.0f) + x) / (v4sfl (1.0f) - x));
 }

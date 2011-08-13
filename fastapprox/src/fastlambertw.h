@@ -130,7 +130,7 @@ fasterlambertwexpx (float x)
 static inline v4sf
 vfastlambertw (v4sf x)
 {
-  static const v4sf threshold = v4sfl (2.26445f);
+  const v4sf threshold = v4sfl (2.26445f);
 
   v4sf under = _mm_cmplt_ps (x, threshold);
   v4sf c = _mm_or_ps (_mm_and_ps (under, v4sfl (1.546865557f)),
@@ -153,7 +153,7 @@ vfastlambertw (v4sf x)
 static inline v4sf
 vfasterlambertw (v4sf x)
 {
-  static const v4sf threshold = v4sfl (2.26445f);
+  const v4sf threshold = v4sfl (2.26445f);
 
   v4sf under = _mm_cmplt_ps (x, threshold);
   v4sf c = _mm_or_ps (_mm_and_ps (under, v4sfl (1.546865557f)),
@@ -173,11 +173,11 @@ vfasterlambertw (v4sf x)
 static inline v4sf
 vfastlambertwexpx (v4sf x)
 {
-  static const v4sf k = v4sfl (1.1765631309f);
-  static const v4sf a = v4sfl (0.94537622168f);
-  static const v4sf two = v4sfl (2.0f);
-  static const v4sf three = v4sfl (3.0f);
-  static const v4sf five = v4sfl (5.0f);
+  const v4sf k = v4sfl (1.1765631309f);
+  const v4sf a = v4sfl (0.94537622168f);
+  const v4sf two = v4sfl (2.0f);
+  const v4sf three = v4sfl (3.0f);
+  const v4sf five = v4sfl (5.0f);
 
   v4sf logarg = _mm_max_ps (x, k);
   v4sf powarg = _mm_and_ps (_mm_cmplt_ps (x, k), a * (x - k));
@@ -196,8 +196,8 @@ vfastlambertwexpx (v4sf x)
 static inline v4sf
 vfasterlambertwexpx (v4sf x)
 {
-  static const v4sf k = v4sfl (1.1765631309f);
-  static const v4sf a = v4sfl (0.94537622168f);
+  const v4sf k = v4sfl (1.1765631309f);
+  const v4sf a = v4sfl (0.94537622168f);
 
   v4sf logarg = _mm_max_ps (x, k);
   v4sf powarg = _mm_and_ps (_mm_cmplt_ps (x, k), a * (x - k));

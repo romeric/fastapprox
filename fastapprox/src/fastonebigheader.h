@@ -471,10 +471,10 @@ fasterinverseerf (float x)
 static inline v4sf
 vfasterfc (v4sf x)
 {
-  static const v4sf k = v4sfl (3.3509633149424609f);
-  static const v4sf a = v4sfl (0.07219054755431126f);
-  static const v4sf b = v4sfl (15.418191568719577f);
-  static const v4sf c = v4sfl (5.609846028328545f);
+  const v4sf k = v4sfl (3.3509633149424609f);
+  const v4sf a = v4sfl (0.07219054755431126f);
+  const v4sf b = v4sfl (15.418191568719577f);
+  const v4sf c = v4sfl (5.609846028328545f);
 
   union { v4sf f; v4si i; } vc = { c * x };
   vc.i |= v4sil (0x80000000);
@@ -488,7 +488,7 @@ vfasterfc (v4sf x)
 static inline v4sf
 vfastererfc (const v4sf x)
 {
-  static const v4sf k = v4sfl (3.3509633149424609f);
+  const v4sf k = v4sfl (3.3509633149424609f);
 
   return v4sfl (2.0f) / (v4sfl (1.0f) + vfasterpow2 (k * x));
 }
@@ -508,11 +508,11 @@ vfastererf (const v4sf x)
 static inline v4sf
 vfastinverseerf (v4sf x)
 {
-  static const v4sf invk = v4sfl (0.30004578719350504f);
-  static const v4sf a = v4sfl (0.020287853348211326f);
-  static const v4sf b = v4sfl (0.07236892874789555f);
-  static const v4sf c = v4sfl (0.9913030456864257f);
-  static const v4sf d = v4sfl (0.8059775923760193f);
+  const v4sf invk = v4sfl (0.30004578719350504f);
+  const v4sf a = v4sfl (0.020287853348211326f);
+  const v4sf b = v4sfl (0.07236892874789555f);
+  const v4sf c = v4sfl (0.9913030456864257f);
+  const v4sf d = v4sfl (0.8059775923760193f);
 
   v4sf xsq = x * x;
 
@@ -523,7 +523,7 @@ vfastinverseerf (v4sf x)
 static inline v4sf
 vfasterinverseerf (v4sf x)
 {
-  static const v4sf invk = v4sfl (0.30004578719350504f);
+  const v4sf invk = v4sfl (0.30004578719350504f);
 
   return invk * vfasterlog2 ((v4sfl (1.0f) + x) / (v4sfl (1.0f) - x));
 }
@@ -943,7 +943,7 @@ fasterlambertwexpx (float x)
 static inline v4sf
 vfastlambertw (v4sf x)
 {
-  static const v4sf threshold = v4sfl (2.26445f);
+  const v4sf threshold = v4sfl (2.26445f);
 
   v4sf under = _mm_cmplt_ps (x, threshold);
   v4sf c = _mm_or_ps (_mm_and_ps (under, v4sfl (1.546865557f)),
@@ -966,7 +966,7 @@ vfastlambertw (v4sf x)
 static inline v4sf
 vfasterlambertw (v4sf x)
 {
-  static const v4sf threshold = v4sfl (2.26445f);
+  const v4sf threshold = v4sfl (2.26445f);
 
   v4sf under = _mm_cmplt_ps (x, threshold);
   v4sf c = _mm_or_ps (_mm_and_ps (under, v4sfl (1.546865557f)),
@@ -986,11 +986,11 @@ vfasterlambertw (v4sf x)
 static inline v4sf
 vfastlambertwexpx (v4sf x)
 {
-  static const v4sf k = v4sfl (1.1765631309f);
-  static const v4sf a = v4sfl (0.94537622168f);
-  static const v4sf two = v4sfl (2.0f);
-  static const v4sf three = v4sfl (3.0f);
-  static const v4sf five = v4sfl (5.0f);
+  const v4sf k = v4sfl (1.1765631309f);
+  const v4sf a = v4sfl (0.94537622168f);
+  const v4sf two = v4sfl (2.0f);
+  const v4sf three = v4sfl (3.0f);
+  const v4sf five = v4sfl (5.0f);
 
   v4sf logarg = _mm_max_ps (x, k);
   v4sf powarg = _mm_and_ps (_mm_cmplt_ps (x, k), a * (x - k));
@@ -1009,8 +1009,8 @@ vfastlambertwexpx (v4sf x)
 static inline v4sf
 vfasterlambertwexpx (v4sf x)
 {
-  static const v4sf k = v4sfl (1.1765631309f);
-  static const v4sf a = v4sfl (0.94537622168f);
+  const v4sf k = v4sfl (1.1765631309f);
+  const v4sf a = v4sfl (0.94537622168f);
 
   v4sf logarg = _mm_max_ps (x, k);
   v4sf powarg = _mm_and_ps (_mm_cmplt_ps (x, k), a * (x - k));
@@ -1389,12 +1389,12 @@ fastertanfull (float x)
 static inline v4sf
 vfastsin (const v4sf x)
 {
-  static const v4sf fouroverpi = v4sfl (1.2732395447351627f);
-  static const v4sf fouroverpisq = v4sfl (0.40528473456935109f);
-  static const v4sf q = v4sfl (0.78444488374548933f);
-  static const v4sf p = v4sfl (0.20363937680730309f);
-  static const v4sf r = v4sfl (0.015124940802184233f);
-  static const v4sf s = v4sfl (-0.0032225901625579573f);
+  const v4sf fouroverpi = v4sfl (1.2732395447351627f);
+  const v4sf fouroverpisq = v4sfl (0.40528473456935109f);
+  const v4sf q = v4sfl (0.78444488374548933f);
+  const v4sf p = v4sfl (0.20363937680730309f);
+  const v4sf r = v4sfl (0.015124940802184233f);
+  const v4sf s = v4sfl (-0.0032225901625579573f);
 
   union { v4sf f; v4si i; } vx = { x };
   v4si sign = vx.i & v4sil (0x80000000);
@@ -1411,10 +1411,10 @@ vfastsin (const v4sf x)
 static inline v4sf
 vfastersin (const v4sf x)
 {
-  static const v4sf fouroverpi = v4sfl (1.2732395447351627f);
-  static const v4sf fouroverpisq = v4sfl (0.40528473456935109f);
-  static const v4sf q = v4sfl (0.77633023248007499f);
-  static const v4sf plit = v4sfl (0.22308510060189463f);
+  const v4sf fouroverpi = v4sfl (1.2732395447351627f);
+  const v4sf fouroverpisq = v4sfl (0.40528473456935109f);
+  const v4sf q = v4sfl (0.77633023248007499f);
+  const v4sf plit = v4sfl (0.22308510060189463f);
   union { v4sf f; v4si i; } p = { plit };
 
   union { v4sf f; v4si i; } vx = { x };
@@ -1431,8 +1431,8 @@ vfastersin (const v4sf x)
 static inline v4sf
 vfastsinfull (const v4sf x)
 {
-  static const v4sf twopi = v4sfl (6.2831853071795865f);
-  static const v4sf invtwopi = v4sfl (0.15915494309189534f);
+  const v4sf twopi = v4sfl (6.2831853071795865f);
+  const v4sf invtwopi = v4sfl (0.15915494309189534f);
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 
@@ -1446,8 +1446,8 @@ vfastsinfull (const v4sf x)
 static inline v4sf
 vfastersinfull (const v4sf x)
 {
-  static const v4sf twopi = v4sfl (6.2831853071795865f);
-  static const v4sf invtwopi = v4sfl (0.15915494309189534f);
+  const v4sf twopi = v4sfl (6.2831853071795865f);
+  const v4sf invtwopi = v4sfl (0.15915494309189534f);
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 
@@ -1461,8 +1461,8 @@ vfastersinfull (const v4sf x)
 static inline v4sf
 vfastcos (const v4sf x)
 {
-  static const v4sf halfpi = v4sfl (1.5707963267948966f);
-  static const v4sf halfpiminustwopi = v4sfl (-4.7123889803846899f);
+  const v4sf halfpi = v4sfl (1.5707963267948966f);
+  const v4sf halfpiminustwopi = v4sfl (-4.7123889803846899f);
   v4sf lthalfpi = _mm_cmpnlt_ps (x, halfpi);
   v4sf offset = _mm_or_ps (_mm_and_ps (lthalfpi, halfpiminustwopi),
                            _mm_andnot_ps (lthalfpi, halfpi));
@@ -1472,8 +1472,8 @@ vfastcos (const v4sf x)
 static inline v4sf
 vfastercos (v4sf x)
 {
-  static const v4sf twooverpi = v4sfl (0.63661977236758134f);
-  static const v4sf p = v4sfl (0.54641335845679634);
+  const v4sf twooverpi = v4sfl (0.63661977236758134f);
+  const v4sf p = v4sfl (0.54641335845679634);
 
   v4sf vx = v4sf_fabs (x);
   v4sf qpprox = v4sfl (1.0f) - twooverpi * vx;
@@ -1484,21 +1484,21 @@ vfastercos (v4sf x)
 static inline v4sf
 vfastcosfull (const v4sf x)
 {
-  static const v4sf halfpi = v4sfl (1.5707963267948966f);
+  const v4sf halfpi = v4sfl (1.5707963267948966f);
   return vfastsinfull (x + halfpi);
 }
 
 static inline v4sf
 vfastercosfull (const v4sf x)
 {
-  static const v4sf halfpi = v4sfl (1.5707963267948966f);
+  const v4sf halfpi = v4sfl (1.5707963267948966f);
   return vfastersinfull (x + halfpi);
 }
 
 static inline v4sf
 vfasttan (const v4sf x)
 {
-  static const v4sf halfpi = v4sfl (1.5707963267948966f);
+  const v4sf halfpi = v4sfl (1.5707963267948966f);
   return vfastsin (x) / vfastsin (x + halfpi);
 }
 
@@ -1511,8 +1511,8 @@ vfastertan (const v4sf x)
 static inline v4sf
 vfasttanfull (const v4sf x)
 {
-  static const v4sf twopi = v4sfl (6.2831853071795865f);
-  static const v4sf invtwopi = v4sfl (0.15915494309189534f);
+  const v4sf twopi = v4sfl (6.2831853071795865f);
+  const v4sf invtwopi = v4sfl (0.15915494309189534f);
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 
@@ -1527,8 +1527,8 @@ vfasttanfull (const v4sf x)
 static inline v4sf
 vfastertanfull (const v4sf x)
 {
-  static const v4sf twopi = v4sfl (6.2831853071795865f);
-  static const v4sf invtwopi = v4sfl (0.15915494309189534f);
+  const v4sf twopi = v4sfl (6.2831853071795865f);
+  const v4sf invtwopi = v4sfl (0.15915494309189534f);
 
   v4si k = v4sf_to_v4si (x * invtwopi);
 

@@ -873,13 +873,13 @@ fastlambertw (float x)
   float logterm = fastlog (c * x + d);
   float loglogterm = fastlog (logterm);
 
-  float w = a + logterm - loglogterm + loglogterm / logterm;
-  float expw = fastexp (w);
-  float z = w * expw;
-  float p = x + z;
+  float minusw = -a - logterm + loglogterm - loglogterm / logterm;
+  float expminusw = fastexp (minusw);
+  float xexpminusw = x * expminusw;
+  float pexpminusw = xexpminusw - minusw;
 
-  return (2.0f * x + w * (4.0f * x + w * p)) /
-         (2.0f * expw + p * (2.0f + w));
+  return (2.0f * xexpminusw - minusw * (4.0f * xexpminusw - minusw * pexpminusw)) /
+         (2.0f + pexpminusw * (2.0f - minusw));
 }
 
 static inline float
@@ -954,13 +954,13 @@ vfastlambertw (v4sf x)
   v4sf logterm = vfastlog (c * x + d);
   v4sf loglogterm = vfastlog (logterm);
 
-  v4sf w = a + logterm - loglogterm + loglogterm / logterm;
-  v4sf expw = vfastexp (w);
-  v4sf z = w * expw;
-  v4sf p = x + z;
+  v4sf minusw = -a - logterm + loglogterm - loglogterm / logterm;
+  v4sf expminusw = vfastexp (minusw);
+  v4sf xexpminusw = x * expminusw;
+  v4sf pexpminusw = xexpminusw - minusw;
 
-  return (v4sfl (2.0f) * x + w * (v4sfl (4.0f) * x + w * p)) /
-         (v4sfl (2.0f) * expw + p * (v4sfl (2.0f) + w));
+  return (v4sfl (2.0f) * xexpminusw - minusw * (v4sfl (4.0f) * xexpminusw - minusw * pexpminusw)) / 
+         (v4sfl (2.0f) + pexpminusw * (v4sfl (2.0f) - minusw));
 }
 
 static inline v4sf

@@ -75,7 +75,12 @@ fasterlog2 (float x)
 static inline float
 fasterlog (float x)
 {
-  return 0.69314718f * fasterlog2 (x);
+//  return 0.69314718f * fasterlog2 (x);
+
+  union { float f; uint32_t i; } vx = { x };
+  float y = vx.i;
+  y *= 8.2629582881927490e-8f;
+  return y - 87.989971088f;
 }
 
 #ifdef __SSE2__
@@ -121,9 +126,17 @@ vfasterlog2 (v4sf x)
 static inline v4sf
 vfasterlog (v4sf x)
 {
-  const v4sf c_0_69314718 = v4sfl (0.69314718f);
+//  const v4sf c_0_69314718 = v4sfl (0.69314718f);
+//
+//  return c_0_69314718 * vfasterlog2 (x);
 
-  return c_0_69314718 * vfasterlog2 (x);
+  union { v4sf f; v4si i; } vx = { x };
+  v4sf y = v4si_to_v4sf (vx.i);
+  y *= v4sfl (8.2629582881927490e-8f);
+
+  const v4sf c_87_989971088 = v4sfl (87.989971088f);
+
+  return y - c_87_989971088;
 }
 
 #endif // __SSE2__

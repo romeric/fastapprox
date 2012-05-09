@@ -1,0 +1,6 @@
+dnl -- include additional autoconf commands here
+dnl -- do not include AC_OUTPUT, this is called for you
+
+AC_CHECK_HEADERS([emmintrin.h boost/math/special_functions/digamma.hpp gsl/gsl_sf_lambert.h])
+
+PKG_CHECK_MODULES([GSL], [gsl], [], [ printf "" ])

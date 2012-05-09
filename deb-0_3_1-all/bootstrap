@@ -1,0 +1,17 @@
+#! /bin/sh
+
+if test -d fw/bin
+  then
+    PATH="`pwd`/fw/bin:$PATH"
+    export PATH
+  fi
+
+fwb=`which fw-bootstrap`
+
+if test -z "$fwb"
+  then
+    echo "bootstrap: fatal: fw-bootstrap not installed or not in PATH" 1>&2
+    exit 1
+  fi
+
+"$fwb" --fw_version "0.3.3" --name fastapprox --template Cxx --revision svn --svn_project_path https://fastapprox.googlecode.com/svn/trunk/fastapprox --svn_tag_root https://fastapprox.googlecode.com/svn/tags/fastapprox "$@"

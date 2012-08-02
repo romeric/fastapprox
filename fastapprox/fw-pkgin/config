@@ -2,7 +2,7 @@
 # variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty at init time
 
 FW_PACKAGE_NAME="fastapprox"
-FW_PACKAGE_VERSION="0.3.1"
+FW_PACKAGE_VERSION="0.3.2"
 FW_PACKAGE_MAINTAINER="Paul Mineiro <paul-fw@mineiro.com>"
 FW_PACKAGE_SHORT_DESCRIPTION="Fast approximate function library."
 FW_PACKAGE_DESCRIPTION=`cat README`

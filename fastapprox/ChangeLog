@@ -1,3 +1,6 @@
+Version 0.3.2
+  * fix some compile warnings
+
 Version 0.3.1
   * somewhat faster fasterlog
   * Lambert W, use negative exponential in Halley's method

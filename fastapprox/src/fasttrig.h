@@ -217,7 +217,7 @@ vfastsin (const v4sf x)
 
   v4sf qpprox = fouroverpi * x - fouroverpisq * x * vx.f;
   v4sf qpproxsq = qpprox * qpprox;
-  union { v4sf f; v4si i; } vy = { qpproxsq * (p + qpproxsq * (r + qpproxsq * s)) };
+  union { v4sf f; v4si i; } vy; vy.f = qpproxsq * (p + qpproxsq * (r + qpproxsq * s));
   vy.i ^= sign;
 
   return q * qpprox + vy.f;

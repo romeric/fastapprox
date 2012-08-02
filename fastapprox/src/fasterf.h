@@ -125,7 +125,7 @@ vfasterfc (v4sf x)
   const v4sf b = v4sfl (15.418191568719577f);
   const v4sf c = v4sfl (5.609846028328545f);
 
-  union { v4sf f; v4si i; } vc = { c * x };
+  union { v4sf f; v4si i; } vc; vc.f = c * x;
   vc.i |= v4sil (0x80000000);
 
   v4sf xsq = x * x;

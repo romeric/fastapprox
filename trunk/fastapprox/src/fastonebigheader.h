@@ -75,7 +75,8 @@ typedef union { v4si i; int array[4]; } v4siindexer;
 typedef union { v4sf f; v4si i; } v4sfv4sipun;
 #define v4sf_fabs(x)                    \
   ({                                    \
-     v4sfv4sipun vx = { x };            \
+     v4sfv4sipun vx;                    \
+     vx.f = x;                          \
      vx.i &= v4sil (0x7FFFFFFF);        \
      vx.f;                              \
   })
@@ -312,7 +313,7 @@ static inline v4sf
 vfastlog2 (v4sf x)
 {
   union { v4sf f; v4si i; } vx = { x };
-  union { v4si i; v4sf f; } mx = { (vx.i & v4sil (0x007FFFFF)) | v4sil (0x3f000000) };
+  union { v4si i; v4sf f; } mx; mx.i = (vx.i & v4sil (0x007FFFFF)) | v4sil (0x3f000000);
   v4sf y = v4si_to_v4sf (vx.i);
   y *= v4sfl (1.1920928955078125e-7f);
 
@@ -489,7 +490,7 @@ vfasterfc (v4sf x)
   const v4sf b = v4sfl (15.418191568719577f);
   const v4sf c = v4sfl (5.609846028328545f);
 
-  union { v4sf f; v4si i; } vc = { c * x };
+  union { v4sf f; v4si i; } vc; vc.f = c * x;
   vc.i |= v4sil (0x80000000);
 
   v4sf xsq = x * x;
@@ -1415,7 +1416,7 @@ vfastsin (const v4sf x)
 
   v4sf qpprox = fouroverpi * x - fouroverpisq * x * vx.f;
   v4sf qpproxsq = qpprox * qpprox;
-  union { v4sf f; v4si i; } vy = { qpproxsq * (p + qpproxsq * (r + qpproxsq * s)) };
+  union { v4sf f; v4si i; } vy; vy.f = qpproxsq * (p + qpproxsq * (r + qpproxsq * s));
   vy.i ^= sign;
 
   return q * qpprox + vy.f;

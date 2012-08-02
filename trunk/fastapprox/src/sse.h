@@ -75,7 +75,8 @@ typedef union { v4si i; int array[4]; } v4siindexer;
 typedef union { v4sf f; v4si i; } v4sfv4sipun;
 #define v4sf_fabs(x)                    \
   ({                                    \
-     v4sfv4sipun vx = { x };            \
+     v4sfv4sipun vx;                    \
+     vx.f = x;                          \
      vx.i &= v4sil (0x7FFFFFFF);        \
      vx.f;                              \
   })

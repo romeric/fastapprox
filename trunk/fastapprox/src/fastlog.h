@@ -89,7 +89,7 @@ static inline v4sf
 vfastlog2 (v4sf x)
 {
   union { v4sf f; v4si i; } vx = { x };
-  union { v4si i; v4sf f; } mx = { (vx.i & v4sil (0x007FFFFF)) | v4sil (0x3f000000) };
+  union { v4si i; v4sf f; } mx; mx.i = (vx.i & v4sil (0x007FFFFF)) | v4sil (0x3f000000);
   v4sf y = v4si_to_v4sf (vx.i);
   y *= v4sfl (1.1920928955078125e-7f);
 

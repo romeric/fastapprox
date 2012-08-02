@@ -3,6 +3,7 @@
 
 fastonebigheader.h: $(filter-out config.h fastonebigheader.h, $(wildcard *.h))
 	cat 			\
+	cast.h			\
 	sse.h 			\
         fastexp.h		\
         fastlog.h		\

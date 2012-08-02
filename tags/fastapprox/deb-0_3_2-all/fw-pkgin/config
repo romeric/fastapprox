@@ -1,0 +1,71 @@
+# The FW_PACKAGE_MAINTAINER field is populated with the environment
+# variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty at init time
+
+FW_PACKAGE_NAME="fastapprox"
+FW_PACKAGE_VERSION="0.3.2"
+FW_PACKAGE_MAINTAINER="Paul Mineiro <paul-fw@mineiro.com>"
+FW_PACKAGE_SHORT_DESCRIPTION="Fast approximate function library."
+FW_PACKAGE_DESCRIPTION=`cat README`
+FW_PACKAGE_ARCHITECTURE_DEPENDENT="0"
+
+# Dependency information.  The native syntax corresponds to Debian,
+# http://www.debian.org/doc/debian-policy/ch-relationships.html
+# Section 7.1 "Syntax of Relationship Fields"
+# 
+# For other packaging systems, the syntax is translated for you.
+
+FW_PACKAGE_DEPENDS=""
+FW_PACKAGE_CONFLICTS=""
+FW_PACKAGE_PROVIDES=""
+FW_PACKAGE_REPLACES=""
+FW_PACKAGE_SUGGESTS=""
+
+FW_PACKAGE_BUILD_DEPENDS=""
+FW_PACKAGE_BUILD_CONFLICTS=""
+
+# dupload is used for submitting debian packages to a package archive
+# The FW_DUPLOAD_ARGS field is populated with the environment variable
+# FW_DEFAULT_DUPLOAD_ARGS if non-empty at init time
+
+FW_DUPLOAD_ARGS=${FW_DUPLOAD_ARGS-"-t dukeslucid"}
+
+# scp+createrepo is used for submitting rpm packages to a package archive
+# The FW_RPM_REPO_USER, FW_RPM_REPO_HOST, FW_RPM_REPO_BASEDIR,
+# and FW_RPM_POSTCREATEREPO_COMMANDS variables are populated with 
+# FW_RPM_REPO_USER_DEFAULT, FW_RPM_REPO_HOST_DEFAULT, 
+# FW_RPM_REPO_BASEDIR_DEFAULT, and FW_RPM_POSTCREATEREPO_COMMANDS_DEFAULT
+# respectively if non-empty at init time
+
+FW_RPM_REPO_USER=${FW_RPM_REPO_USER-"`whoami`"}
+FW_RPM_REPO_HOST=${FW_RPM_REPO_HOST-"ub32srvvmw"}
+FW_RPM_REPO_BASEDIR=${FW_RPM_REPO_BASEDIR-"/var/yum"}
+FW_RPM_CREATEREPO_ARGS=${FW_RPM_CREATEREPO_ARGS-"-q --database"}
+
+# this variable controls whether createrepo is run incrementally (--update).
+# possible settings are yes (always do it), no (never do it), and 
+# auto (do it if the repository has been previously initialized)
+FW_RPM_CREATEREPO_INCREMENTAL=${FW_RPM_CREATEREPO_INCREMENTAL-"auto"}
+
+# these commands will be run after a successful createrepo run
+FW_RPM_POSTCREATEREPO_COMMANDS=${FW_RPM_POSTCREATEREPO_COMMANDS-"{ cd /var; rsync -a yum /var/package/dukes; }"}
+# here's a suggestion:
+# FW_RPM_POSTCREATEREPO_COMMANDS="gpg --detach-sign --armor repodata/repomd.xml" 
+
+# set to the directory in which version-named tags will be created
+FW_SUBVERSION_TAG_ROOT="https://fastapprox.googlecode.com/svn/tags/fastapprox"
+
+# uncomment and set to specify additional pkg-config packages on the Requires:
+# line of the generated .pc file
+# FW_PKGCONFIG_REQUIRES_EXTRA=""
+
+# uncomment and set to specify additional content for the Libs:
+# line of the generated .pc file
+# FW_PKGCONFIG_LIBS_EXTRA=""
+
+# uncomment and set to specify additional content for the Cflags:
+# line of the generated .pc file
+# FW_PKGCONFIG_CFLAGS_EXTRA=""
+
+# uncomment and set to add arbitrary additional content to the 
+# generated .pc file
+# FW_PKGCONFIG_EXTRA=""

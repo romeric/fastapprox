@@ -1,0 +1,21 @@
+#! /bin/sh
+
+set -e
+
+#---------------------------------------------------------------------
+#                            post-install                             
+# 
+# Executed after the package is installed.
+#
+# http://code.google.com/p/fwtemplates/wiki/PackageHooks
+#---------------------------------------------------------------------
+
+case "$1" in
+  configure)
+    # most recently configured version is $2 (possibly empty string)
+    ;;
+  *)
+    ;;
+esac
+
+exit 0

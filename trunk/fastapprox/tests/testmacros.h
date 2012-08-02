@@ -155,7 +155,7 @@
                           float*  max,                          \
                           float*  argmax)                       \
     {                                                           \
-      v4sf x = v4sfl (gen);                                     \
+      v4sf x = v4sfl ((float) (gen));                           \
       v4sf exact = (v4sf) { exactf (v4sf_index (x, 0)),         \
                             exactf (v4sf_index (x, 1)),         \
                             exactf (v4sf_index (x, 2)),         \
@@ -240,8 +240,8 @@
                           float*  argmaxx,                      \
                           float*  argmaxy)                      \
     {                                                           \
-      v4sf x = v4sfl (genx);                                    \
-      v4sf y = v4sfl (geny);                                    \
+      v4sf x = v4sfl ((float) (genx));                          \
+      v4sf y = v4sfl ((float) (geny));                          \
       v4sf exact = (v4sf) { exactf (v4sf_index (x, 0),          \
                                     v4sf_index (y, 0)),         \
                             exactf (v4sf_index (x, 1),          \

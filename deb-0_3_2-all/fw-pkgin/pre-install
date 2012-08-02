@@ -1,0 +1,23 @@
+#! /bin/sh
+
+set -e
+
+#---------------------------------------------------------------------
+#                            pre-install                             
+# 
+# Executed before the package is installed.
+#
+# http://code.google.com/p/fwtemplates/wiki/PackageHooks
+#---------------------------------------------------------------------
+
+case "$1" in
+  install)
+    ;;
+  upgrade)
+    # old version is $2
+    ;;
+  *)
+    ;;
+esac
+
+exit 0

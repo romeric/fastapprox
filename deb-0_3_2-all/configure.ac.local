@@ -1,0 +1,11 @@
+dnl -- include additional autoconf commands here
+dnl -- do not include AC_OUTPUT, this is called for you
+
+m4_include([ax_check_compile_flag.m4])
+
+AX_CHECK_COMPILE_FLAG([-std=c++0x], 
+                      [CXXFLAGS="$CXXFLAGS -std=c++0x"])
+
+AC_CHECK_HEADERS([emmintrin.h boost/math/special_functions/digamma.hpp gsl/gsl_sf_lambert.h])
+
+PKG_CHECK_MODULES([GSL], [gsl], [], [ printf "" ])

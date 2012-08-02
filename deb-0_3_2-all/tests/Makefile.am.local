@@ -1,0 +1,155 @@
+# put whatever (auto)make commands here, they will be included from Makefile.am
+
+check_PROGRAMS =			\
+  testfastexp				\
+  testfastexpcpp			\
+  testfasterf				\
+  testfasterfcpp			\
+  testfastlog				\
+  testfastlogcpp			\
+  testfastpow				\
+  testfastpowcpp			\
+  testfastsigmoid			\
+  testfastsigmoidcpp			\
+  testfasthyperbolic			\
+  testfasthyperboliccpp			\
+  testfasttrig				\
+  testfasttrigcpp			\
+  testfastgamma				\
+  testfastgammacpp			\
+  testfastlambertw			\
+  testfastlambertwcpp			\
+  testfastonebigheader			\
+  testfastonebigheadercpp
+
+testfasterf_SOURCES =			\
+  testfasterf.c
+
+testfasterfcpp_SOURCES =		\
+  testfasterfcpp.cc
+
+testfasterf_LDADD =			\
+  -lm
+
+testfasterfcpp_LDADD =			\
+  -lm
+
+testfastexp_SOURCES =			\
+  testfastexp.c
+
+testfastexpcpp_SOURCES =		\
+  testfastexpcpp.cc
+
+testfastexp_LDADD =			\
+  -lm
+
+testfastexpcpp_LDADD =			\
+  -lm
+
+testfastgamma_SOURCES =			\
+  testfastgamma.c
+
+testfastgammacpp_SOURCES =		\
+  testfastgammacpp.cc
+
+testfastgamma_LDADD =			\
+  -lm
+
+testfastgammacpp_LDADD =		\
+  -lm
+
+testfasthyperbolic_SOURCES =		\
+  testfasthyperbolic.c
+
+testfasthyperboliccpp_SOURCES =		\
+  testfasthyperboliccpp.cc
+
+testfasthyperbolic_LDADD =		\
+  -lm
+
+testfasthyperboliccpp_LDADD =		\
+  -lm
+
+testfastlambertw_SOURCES =		\
+  testfastlambertw.c
+
+testfastlambertwcpp_SOURCES =		\
+  testfastlambertwcpp.cc
+
+testfastlambertw_LDADD =		\
+  -lm ${GSL_LIBS}
+
+testfastlambertwcpp_LDADD =		\
+  -lm ${GSL_LIBS}
+
+testfastlog_SOURCES =			\
+  testfastlog.c
+
+testfastlogcpp_SOURCES =		\
+  testfastlogcpp.cc
+
+testfastlog_LDADD =			\
+  -lm
+
+testfastlogcpp_LDADD =			\
+  -lm
+
+testfastonebigheader_SOURCES =		\
+  testfastonebigheader.c
+
+testfastonebigheadercpp_SOURCES =	\
+  testfastonebigheadercpp.cc
+
+testfastonebigheader_LDADD =		\
+  -lm
+
+testfastonebigheadercpp_LDADD =		\
+  -lm
+
+testfastpow_SOURCES =			\
+  testfastpow.c
+
+testfastpowcpp_SOURCES =		\
+  testfastpowcpp.cc
+
+testfastpow_LDADD =			\
+  -lm
+
+testfastpowcpp_LDADD =			\
+  -lm
+
+testfastsigmoid_SOURCES =		\
+  testfastsigmoid.c
+
+testfastsigmoidcpp_SOURCES =		\
+  testfastsigmoidcpp.cc
+
+testfastsigmoid_LDADD =			\
+  -lm
+
+testfastsigmoidcpp_LDADD =		\
+  -lm
+
+testfasttrig_SOURCES =			\
+  testfasttrig.c
+
+testfasttrigcpp_SOURCES =		\
+  testfasttrigcpp.cc
+
+testfasttrig_LDADD =			\
+  -lm
+
+testfasttrigcpp_LDADD =			\
+  -lm
+
+%cpp.cc: %.c
+	cat $< > $@
+
+TESTS =					\
+  $(check_PROGRAMS)
+
+CLEANFILES +=				\
+  $(wildcard *cpp.cc)			\
+  $(wildcard *.out)
+
+EXTRA_DIST = testmacros.h fastapprox.nb

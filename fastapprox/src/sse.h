@@ -55,11 +55,24 @@ typedef __m128i v4si;
 #define v4si_to_v4sf _mm_cvtepi32_ps
 #define v4sf_to_v4si _mm_cvttps_epi32
 
-typedef const __m128 v4sf_const;
-typedef const __m128i v4si_const;
-#define v4sfl(x) (v4sf_const { (x), (x), (x), (x) })
-#define v2dil(x) (v4si_const { (x), (x) })
-#define v4sil(x) v2dil((((long long) (x)) << 32) | (long long) (x))
+#if _MSC_VER && !__INTEL_COMPILER
+  template <class T>
+  __forceinline char GetChar(T value, size_t index) { return ((char*)&value)[index]; }
+
+  #define AS_4CHARS(a) \
+      GetChar(int32_t(a), 0), GetChar(int32_t(a), 1), \
+      GetChar(int32_t(a), 2), GetChar(int32_t(a), 3)
+
+  #define _MM_SETR_EPI32(a0, a1, a2, a3) \
+      { AS_4CHARS(a0), AS_4CHARS(a1), AS_4CHARS(a2), AS_4CHARS(a3) }
+
+  #define v4sfl(x) (const v4sf { (x), (x), (x), (x) })
+  #define v4sil(x) (const v4si _MM_SETR_EPI32(x, x, x, x))
+#else
+  #define v4sfl(x) ((const v4sf) { (x), (x), (x), (x) })
+  #define v2dil(x) ((const v4si) { (x), (x) })
+  #define v4sil(x) v2dil((((long long) (x)) << 32) | (long long) (x))
+#endif
 
 typedef union { v4sf f; float array[4]; } v4sfindexer;
 #define v4sf_index(_findx, _findi)      \

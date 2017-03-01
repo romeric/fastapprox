@@ -162,13 +162,17 @@ typedef union { v4si i; int array[4]; } v4siindexer;
   })
 
 typedef union { v4sf f; v4si i; } v4sfv4sipun;
-#define v4sf_fabs(x)                    \
+#if _MSC_VER && !__INTEL_COMPILER
+  #define v4sf_fabs(x) _mm_and_ps(x, _mm_castsi128_ps(_mm_set1_epi32(0x7fffffff)))
+#else
+  #define v4sf_fabs(x)                  \
   ({                                    \
      v4sfv4sipun vx;                    \
      vx.f = x;                          \
      vx.i &= v4sil (0x7FFFFFFF);        \
      vx.f;                              \
   })
+#endif
 
 #ifdef __cplusplus
 } // end namespace

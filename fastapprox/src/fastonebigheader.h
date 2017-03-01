@@ -104,8 +104,10 @@ typedef __m128i v4si;
 #define v4si_to_v4sf _mm_cvtepi32_ps
 #define v4sf_to_v4si _mm_cvttps_epi32
 
-#define v4sfl(x) ((const v4sf) { (x), (x), (x), (x) })
-#define v2dil(x) ((const v4si) { (x), (x) })
+typedef const __m128 v4sf_const;
+typedef const __m128i v4si_const;
+#define v4sfl(x) (v4sf_const { (x), (x), (x), (x) })
+#define v2dil(x) (v4si_const { (x), (x) })
 #define v4sil(x) v2dil((((long long) (x)) << 32) | (long long) (x))
 
 typedef union { v4sf f; float array[4]; } v4sfindexer;

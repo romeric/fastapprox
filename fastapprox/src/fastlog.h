@@ -47,14 +47,13 @@
 static inline float 
 fastlog2 (float x)
 {
-  union { float f; uint32_t i; } vx = { x };
-  union { uint32_t i; float f; } mx = { (vx.i & 0x007FFFFF) | 0x3f000000 };
-  float y = vx.i;
-  y *= 1.1920928955078125e-7f;
-
-  return y - 124.22551499f
-           - 1.498030302f * mx.f 
-           - 1.72587999f / (0.3520887068f + mx.f);
+  union {float f; uint32_t i;} xv = {x}, lv, mx;
+  mx.i = 0x3f000000u | (xv.i & 0x007FFFFFu);
+  lv.i = 0x43800000u | (xv.i >> 8u);
+  
+  return lv.f - 380.22544f
+              - 1.498030302f * mx.f
+              - 1.72587999f / (0.3520887068f + mx.f);
 }
 
 static inline float
@@ -66,10 +65,9 @@ fastlog (float x)
 static inline float 
 fasterlog2 (float x)
 {
-  union { float f; uint32_t i; } vx = { x };
-  float y = vx.i;
-  y *= 1.1920928955078125e-7f;
-  return y - 126.94269504f;
+  union {float f; uint32_t i;} xv = {x}, lv;
+  lv.i = 0x43800000u | (xv.i >> 8u);
+  return (lv.f - 382.95695f);
 }
 
 static inline float
@@ -77,10 +75,9 @@ fasterlog (float x)
 {
 //  return 0.69314718f * fasterlog2 (x);
 
-  union { float f; uint32_t i; } vx = { x };
-  float y = vx.i;
-  y *= 8.2629582881927490e-8f;
-  return y - 87.989971088f;
+  union {float f; uint32_t i;} xv = {x}, lv;
+  lv.i = 0x43800000u | (xv.i >> 8u);
+  return 0.69314718f * (lv.f - 382.95695f);
 }
 
 #ifdef __SSE2__

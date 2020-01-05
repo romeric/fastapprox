@@ -51,13 +51,11 @@
 static inline float
 fastpow2 (float p)
 {
-  float offset = (p < 0) ? 1.0f : 0.0f;
-  float clipp = (p < -126) ? -126.0f : p;
-  int w = clipp;
-  float z = clipp - w + offset;
-  union { uint32_t i; float f; } v = { cast_uint32_t ( (1 << 23) * (clipp + 121.2740575f + 27.7280233f / (4.84252568f - z) - 1.49012907f * z) ) };
-
-  return v.f;
+  union {float f; uint32_t i;} xv = {p + 383.f}, zv;
+  zv.i = 0x3f800000u | ((xv.i & 0x7fffu) << 8u);
+  xv.f = xv.f - 4.23579f + 27.7280f / (5.84252568f - zv.f) - 1.49012907f * zv.f;
+  xv.i = ((((xv.i < 0x43808000u) ? 0u : xv.i) << 8u) & 0x7FFFFF00);
+  return xv.f;
 }
 
 static inline float
@@ -69,9 +67,9 @@ fastexp (float p)
 static inline float
 fasterpow2 (float p)
 {
-  float clipp = (p < -126) ? -126.0f : p;
-  union { uint32_t i; float f; } v = { cast_uint32_t ( (1 << 23) * (clipp + 126.94269504f) ) };
-  return v.f;
+  union {float f; uint32_t i;} xv = {p + 382.95695f};
+  xv.i = ((((xv.i < 0x43808000u) ? 0u : xv.i) << 8u) & 0x7FFFFF00);
+  return xv.f;
 }
 
 static inline float
